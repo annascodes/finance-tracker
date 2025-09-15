@@ -3,6 +3,14 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+enum Tag {
+  WORK
+  PERSONAL
+  HOME
+  MEDICAL
+  BILLS
+  OTHER
+}
 
 generator client {
   provider = "prisma-client-js"
@@ -23,11 +31,12 @@ model  User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   records Record[]
+  notes Note[]
 }
 
 model Record{
   id String @id @default(uuid())
-  text String 
+  text String  // description sort of text
   amount Float
   category String @default("Other")
   date DateTime @default(now())
@@ -36,4 +45,20 @@ model Record{
   createdAt DateTime @default(now())
   @@index([userId])
 
+}
+
+
+
+
+model Note{
+  id String @id @default(uuid())
+  title String 
+  text String 
+  tags Tag[]
+  userId String
+  user User @relation(fields: [userId], references: [clerkUserId],onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([userId])
 }
