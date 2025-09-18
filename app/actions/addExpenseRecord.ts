@@ -6,6 +6,7 @@ import { convertDate } from '@/lib/hardData';
 import moment from 'moment';
 
 interface RecordData {
+     id:String;
     text: string;
     amount: number;
     category: string;
@@ -18,6 +19,7 @@ interface RecordResult {
 }
 
 type RecordType = {
+   
     text: String;
     amount: Number;
     category: String;
@@ -92,6 +94,7 @@ async function addExpenseRecord(formData: RecordType): Promise<RecordResult> {
         });
 
         const recordData: RecordData = {
+            id: createdRecord.id,
             text: createdRecord.text,
             amount: createdRecord.amount,
             category: createdRecord.category,

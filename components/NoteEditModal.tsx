@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { LuPencil } from "react-icons/lu";
 import NoteForm from "./NoteForm";
 import { IoMdClose } from "react-icons/io";
@@ -7,13 +7,14 @@ import { IoMdClose } from "react-icons/io";
 type PropType = {
     id: string;
     note: any;
+    setData: Dispatch<SetStateAction<any>>
 }
-const NoteEditModal = ({ id, note }: PropType) => {
+const NoteEditModal = ({ id, note, setData }: PropType) => {
     const modalId = `${id}-note-edit-modal`
     return (
         <div>
             {/* Open the modal using document.getElementById('ID').showModal() method */}
-            <button className='flex items-center gap-2'
+            <button className='flex items-center gap-2 cursor-pointer'
                 onClick={() => {
                     const modal = document.getElementById(modalId) as HTMLDialogElement | null;
                     modal?.showModal();
@@ -32,7 +33,7 @@ const NoteEditModal = ({ id, note }: PropType) => {
                     </div>
 
                     <p className="  ">
-                        <NoteForm key={note.id} preBuilt={note} />
+                        <NoteForm setData={setData} key={note.id} preBuilt={note} />
                         {/* <pre className="text-xs text-blue-400">
                             {JSON.stringify(note, null, 10)}
                         </pre> */}

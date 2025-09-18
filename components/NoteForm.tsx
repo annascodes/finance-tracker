@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 // import { TAG_OPTIONS } from "@/lib/notesTags";
 
 
@@ -30,12 +30,14 @@ interface NoteFormProps {
 }
 type PropType = {
     preBuilt?: any
+    setData: Dispatch<SetStateAction<any>>
 }
-export default function NoteForm({ preBuilt }: PropType) {
+export default function NoteForm({ preBuilt, setData }: PropType) {
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [tags, setTags] = useState<string[]>([]);
     const { request, data, loading, error } = useApiReq()
+    const { request: updReq, data: updData, loading: updLoading, error: updError } = useApiReq()
     useEffect(() => {
         if (preBuilt) {
             setTitle(preBuilt.title ?? "");
@@ -46,7 +48,7 @@ export default function NoteForm({ preBuilt }: PropType) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         if (!title || title.trim() === '' || !text ||
             text.trim() === '' || tags.length === 0) {
             alert('title, text, tag NEEDED!!!')
@@ -70,8 +72,25 @@ export default function NoteForm({ preBuilt }: PropType) {
             return
         }
         // console.log('Updating Note: ', note)
-        request(`/api/note/${preBuilt.id}`, 'PUT', note)
+        updReq(`/api/note/${preBuilt.id}`, 'PUT', note)
     }
+    useEffect(() => {
+        if (data) {
+            // push new one in existing 
+            setData((prev: any) => ({ ...prev, notes: [data, ...prev.notes] }))
+        }
+    }, [data])
+    useEffect(() => {
+        if (updData) {
+            // push new one in existing 
+            setData((prev: any) => ({
+                ...prev,
+                notes: prev.notes.map((n:any) =>
+                    n.id === updData.id ? updData : n
+                ),
+            }))
+        }
+    }, [updData])
 
     return (
         <form
@@ -81,6 +100,8 @@ export default function NoteForm({ preBuilt }: PropType) {
             <h2 className="text-xl font-bold text-center">
                 {preBuilt ? 'Update Note' : 'Create a Note'}
             </h2>
+
+            {/* success div after post  */}
             {data &&
                 <div className="text-xs flex items-center gap-2 bg-green-950 p-2 rounded-lg">
 
@@ -135,8 +156,8 @@ export default function NoteForm({ preBuilt }: PropType) {
             {/* Submit */}
             {
                 preBuilt ?
-                    <button onClick={handleUpate} disabled={loading} type="submit" className="btn btn-primary w-full">
-                        {loading ? <span className="loading loading-spinner loading-xs"></span>
+                    <button onClick={handleUpate} disabled={updLoading} type="submit" className="btn btn-primary w-full">
+                        {updLoading ? <span className="loading loading-spinner loading-xs"></span>
                             : ' Update'}
 
                     </button>

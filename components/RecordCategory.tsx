@@ -5,11 +5,16 @@ import {
   LuShoppingBag,
   LuReceipt,
   LuTag,
+  LuMilk,
 } from "react-icons/lu";
+import { MdOutlineLocalDrink } from "react-icons/md";
+import { IoIosWater } from "react-icons/io";
 
 // Category → Icon map
 const categoryIcons: Record<string, React.ElementType> = {
   Food: LuUtensils,
+  Milk : LuMilk,
+  Water: IoIosWater,
   Transport: LuBus,
   Shopping: LuShoppingBag,
   Bills: LuReceipt,

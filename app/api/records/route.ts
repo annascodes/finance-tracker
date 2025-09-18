@@ -16,15 +16,15 @@ export async function GET(req: Request) {
   const where: any = { userId: user.id }
 
   if (amount) {
-    console.log('---------------------amount----:',amount)
+    console.log('---------------------amount----:', amount)
     where.amount = { lte: Number(amount) };
   }
   if (category) {
-    console.log('---------------------category----:',category)
+    console.log('---------------------category----:', category)
     where.category = category;
   }
   if (date) {
-    console.log('---------------------date----:',date)
+    console.log('---------------------date----:', date)
     where.date = {
       gte: new Date(date),
       lte: new Date(new Date(date).setHours(23, 59, 59, 999)),

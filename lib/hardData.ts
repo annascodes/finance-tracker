@@ -1,4 +1,18 @@
 import moment from "moment";
+import { Tag } from "@prisma/client";
+import {
+    LuUtensils,
+    LuBus,
+    LuShoppingBag,
+    LuReceipt,
+    LuTag,
+} from "react-icons/lu";
+import { LuMilk } from "react-icons/lu";
+import { MdOutlineLocalDrink } from "react-icons/md";
+import { IoIosWater } from "react-icons/io";
+
+
+
 
 export const convertDate = (dateValue: string| Date) => {
   try {
@@ -14,6 +28,24 @@ export const convertDate = (dateValue: string| Date) => {
     return { error: "Invalid date format" };
   }
 };
+
+
+
+export const TAG_OPTIONS: string[] = Object.values(Tag);
+
+
+export const categories = [
+    { label: "Food", icon: LuUtensils },
+    { label: "Milk", icon: LuMilk },
+    { label: "Water", icon: IoIosWater },
+    { label: "Transport", icon: LuBus },
+    { label: "Shopping", icon: LuShoppingBag },
+    { label: "Bills", icon: LuReceipt },
+    { label: "Other", icon: LuTag },
+];
+
+
+
 
 
 

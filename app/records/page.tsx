@@ -301,9 +301,9 @@ const page = () => {
 
 
             
-            <pre>
+            {/* <pre>
                 {data && JSON.stringify(data, null, 10)}
-            </pre>
+            </pre> */}
 
         </div>
     )

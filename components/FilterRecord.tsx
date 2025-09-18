@@ -2,23 +2,24 @@
 'use client'
 import React, { useState } from 'react'
 
-import {
-    LuUtensils,
-    LuBus,
-    LuShoppingBag,
-    LuReceipt,
-    LuTag
-} from "react-icons/lu";
+// import {
+//     LuUtensils,
+//     LuBus,
+//     LuShoppingBag,
+//     LuReceipt,
+//     LuTag
+// } from "react-icons/lu";
 import RecordCategory from "./RecordCategory";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { FiToggleRight } from 'react-icons/fi';
-const categories = [
-    { label: "Food", icon: LuUtensils },
-    { label: "Transport", icon: LuBus },
-    { label: "Shopping", icon: LuShoppingBag },
-    { label: "Bills", icon: LuReceipt },
-    { label: "Other", icon: LuTag },
-];
+import { categories } from '@/lib/hardData';
+// const categories = [
+//     { label: "Food", icon: LuUtensils },
+//     { label: "Transport", icon: LuBus },
+//     { label: "Shopping", icon: LuShoppingBag },
+//     { label: "Bills", icon: LuReceipt },
+//     { label: "Other", icon: LuTag },
+// ];
 
 
 
@@ -98,7 +99,7 @@ const FilterRecord: React.FC<ComponentProps> = ({ handleFilter, loading = false 
                         value={category || 'select'}
                         onChange={(e) => setCategory(e.target.value)}
                     >
-                        {categories.map((cat) => (
+                        { categories.map((cat) => (
                             <option
                                 key={cat.label}
                                 value={cat.label}

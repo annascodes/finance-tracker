@@ -18,6 +18,9 @@ import {
 } from "react-icons/lu";
 import RecordCategory from '@/components/RecordCategory';
 import moment from 'moment';
+import RecordEditModal from '@/components/RecordEditModal';
+import DeletePermitModal from '@/components/DeletePermitModal';
+import toast from 'react-hot-toast';
 
 const categories = [
     { label: "Food", icon: LuUtensils },
@@ -29,22 +32,38 @@ const categories = [
 
 const page = ({ params }: { params: Promise<{ recordId: string }> }) => {
 
-    const [text, setText] = useState("");
-    const [amount, setAmount] = useState<number | "">("");
-    const [category, setCategory] = useState("Other");
-    const [date, setDate] = useState<string>("");
+    const [data, setData] = useState<any | null>(null)
+    const [delPermit, setDelPermit] = useState<string | null>(null)
 
 
     const { recordId } = use(params);
-    const { request, data, loading, error } = useApiReq()
+    const { request, data: record, loading, error } = useApiReq()
+    const { request: delReq,
+        data: delData,
+        loading: delLoading,
+        error: delError
+    } = useApiReq()
     useEffect(() => {
-        console.log('fetcing this record: ', recordId)
-        // request(`/api/records/123`)
+        // console.log('fetcing this record: ', recordId)
         request(`/api/records/${recordId}`)
     }, [])
+    useEffect(() => {
+        if (record) {
+            setData(record)
+        }
+    }, [record])
+    useEffect(() => {
+        if (!delData && delPermit) {
+            delReq(`/api/records/${delPermit}`, 'DELETE')
+        }
+        if (delData && delData.success) {
+            toast.success('Record permanently deleted')
+        }
+    }, [delPermit, delData])
+
 
     return (
-        <div>
+        <div  >
 
             {
                 loading && <div className='flex flex-row h-40 justify-center items-center'>
@@ -52,94 +71,41 @@ const page = ({ params }: { params: Promise<{ recordId: string }> }) => {
                 </div>
             }
 
+            {/* <pre className='text-orange-300 text-[10px]'>
+                {data && JSON.stringify(data, null, 10)}
+            </pre> */}
 
 
             {data &&
                 <div className='flex flex-col items-center'>
-                    
+                    <h1 className="text-5xl md:text-5xl text-center font-bold my-5 opacity-30">
+
+                        <span className="text-sm tracking-wider mx-1">record</span>
+                        Details
+
+                    </h1>
+
                     {/* actions  */}
-                    <div className='flex md:w-md w-sm justify-between items-center gap-5 my-5'>
-                        <button className='flex items-center btn btn-ghost btn-sm'>
-                            {true
-                                ? <RxBookmarkFilled className='text-2xl' />
-                                : <RxBookmark className='text-2xl' />
-                            } 
-                        </button>
-                        <h1 className='text-5xl font-extrabold opacity-35'>Details</h1>
-                        
-                        <button className='flex items-center btn btn-ghost btn-sm'>
-                            <AiTwotoneDelete className='text-2xl textred' />
-                        </button>
-                         
-                    </div>
+                    {
+                        !delData &&
+                        <div className='mx-auto max-w-lg flex justify-end items-center gap-5 w-full px-5'>
+                            <RecordEditModal id={data.id} preBuilt={data} setData={setData} />
+                            <DeletePermitModal
+                                id={data.id}
+                                setPermit={setDelPermit}
+                                permit={delPermit}
+                                prompt={'Do really want to delete this record, it would be deleted permanently.'}
+                                loading={delLoading}
+                            />
+                        </div>
+                    }
+
+                    {delData && <h1 className='text-4xl tracking-widest text-red-400 text-center font-thin '>This record is DELETED</h1>}
+
 
                     {/* card  */}
                     <div className='flex justify-center'>
                         <RecordCard record={data} />
-                    </div>
-
-                    {/* edit collapse div  */}
-                    <div className="collapse md:w-md w-sm bg-base-100 my-10 border-base-300 border">
-                        <input type="checkbox" />
-                        <div className="collapse-title font-semibold flex items-center gap-5">
-                            <button className='flex items-center btn btn-ghost btn-sm'>
-                                <BiEdit className='text-2xl' />
-                                <span className='text-neutral-500'>  Edit you record here:</span>
-                            </button>
-
-                        </div>
-                        <div className="collapse-content text-sm">
-                            {/* Amount */}
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Amount</span>
-                                </label>
-                                <input
-                                    type="number"
-                                    placeholder="Enter amount"
-                                    className="input input-bordered w-full"
-                                    value={data.amount}
-                                    onChange={(e) => setAmount(e.target.value === "" ? "" : Number(e.target.value))}
-                                    required
-                                />
-                            </div>
-
-                            {/* Category */}
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Category</span>
-                                </label>
-                                <select
-                                    className={`select select-bordered  w-full `}
-                                    value={data.category}
-                                    onChange={(e) => setCategory(e.target.value)}
-                                >
-                                    {categories.map((cat) => (
-                                        <option
-                                            key={cat.label}
-                                            value={cat.label}
-                                            className={`flex flex-row items-center gap-4 `}>
-                                            <RecordCategory category={cat.label} />
-                                        </option>
-
-                                    ))}
-                                </select>
-                            </div>
-
-                            {/* Date */}
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Date</span>
-                                </label>
-                                <input
-                                    type="date"
-                                    className="input input-bordered w-full"
-                                   value={moment(data.date).format("YYYY-MM-DD")}
-
-                                    onChange={(e) => setDate(e.target.value)}
-                                />
-                            </div>
-                        </div>
                     </div>
 
                 </div>

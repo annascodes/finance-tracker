@@ -1,9 +1,12 @@
 'use client'
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import { LuNotebookPen } from 'react-icons/lu';
 import NoteForm from './NoteForm';
+type PropType={
+    setData: Dispatch<SetStateAction<any>>
+}
 
-const CreateNoteModal = () => {
+const CreateNoteModal = ({setData}:PropType) => {
     return (
         <div>
             
@@ -25,7 +28,7 @@ const CreateNoteModal = () => {
                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
                     <div className='mt-5'>
-                        <NoteForm  />
+                        <NoteForm  setData={setData} />
                     </div>
                 </div>
             </dialog>
