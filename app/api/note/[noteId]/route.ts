@@ -2,8 +2,13 @@ import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server"
 
+interface RouteParams {
+    params: {
+        noteId: string
+    }
+}
  
-export async function PUT(req: Request, { params }: { params: { noteId: string } }) {
+export async function PUT(req: Request, { params }: RouteParams) {
     const body = await req.json()
     const { userId } = await auth()
 
@@ -32,7 +37,7 @@ export async function PUT(req: Request, { params }: { params: { noteId: string }
 
 }
 
-export async function DELETE(req: Request, { params }: { params: { noteId: string } }) {
+export async function DELETE(req: Request, { params }: RouteParams) {
     const { userId } = await auth()
     if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
