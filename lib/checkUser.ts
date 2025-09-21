@@ -6,7 +6,9 @@ import { db } from "./db";
 
 export const checkUser = async()=>{
     const user = await currentUser();
-    if(!user) return null;
+    if(!user){ 
+        console.log('---------------------NO USER --> chechUser.ts ')
+        return null;}
 
     const loggedInUser = await db.user.findUnique(
         {

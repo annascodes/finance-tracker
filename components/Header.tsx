@@ -1,4 +1,5 @@
 'use client'
+ 
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
@@ -23,14 +24,15 @@ import { LuNotebookPen, LuNotebook } from "react-icons/lu"; // create note and y
 type PropType = {
     onView?: boolean;
 }
-const Header = ({onView}:PropType) => {
+const Header = ({ onView }: PropType) => {
+    
     const classname = `btn btn-soft`
     const pathName = usePathname()
-    const linkTitleCss =`${onView ? 'flex': 'hidden'} lg:flex `
+    const linkTitleCss = `${onView ? 'flex' : 'hidden'} lg:flex `
     return (
         <div className='p-3 flex flex-col gap-5 '>
             <Link href={'/'}
-                className={`${onView ? 'text-5xl text-neutral-50 border rounded-r-full border-dashed p-2 ': 'text-xl'} md:text-4xl font-bold flex flex-col justify-center gap-0`}>
+                className={`${onView ? 'text-5xl text-neutral-50 border rounded-r-full border-dashed p-2 ' : 'text-xl'} md:text-4xl font-bold flex flex-col justify-center gap-0`}>
                 Finance <span className="text-sm tracking-wider">Tracker.</span>
             </Link>
 

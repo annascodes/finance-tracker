@@ -67,7 +67,7 @@ const Page = () => {
 
 
     const handleFilter = (data: { amount: number | '', category: string; date: string; }) => {
-        console.log('filtering data :', data)
+        // console.log('filtering data :', data)
         request(`/api/records?amount=${data.amount}&category=${data.category}&date=${data.date}`)
     }
     const handleRefresh = () => {

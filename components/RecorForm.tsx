@@ -61,7 +61,7 @@ const RecordForm = ({ preBuilt, setData }: PropType) => {
 
     useEffect(() => {
         if (preBuilt) {
-            console.log('-----------HERE-----------------')
+            // console.log('-----------HERE-----------------')
             setText(preBuilt?.text ?? '')
             setAmount(preBuilt?.amount ?? '')
             setCategory(preBuilt?.category ?? '')

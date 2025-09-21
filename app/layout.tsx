@@ -4,8 +4,9 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/Header";
 import MobileHeader from "@/components/MobileHeader";
+import { checkUser } from "@/lib/checkUser";
 
- 
+
 
 export const metadata: Metadata = {
   title: "Finance Tracker",
@@ -17,6 +18,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
+  const user = checkUser()
+  console.log('header --> user: ', user)
   return (
     <ClerkProvider>
       <html data-theme="business" lang="en">

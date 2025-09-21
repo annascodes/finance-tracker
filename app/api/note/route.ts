@@ -14,6 +14,9 @@ export async function POST(req: Request) {
     let newNote;
     try {
         // console.log(`-----------1--------`.bgYellow)
+        console.log('-----------------userid----------------------------')
+        console.log(userId)
+
 
         newNote = await db.note.create(
             {
@@ -21,7 +24,7 @@ export async function POST(req: Request) {
                     title: body.title,
                     text: body.text,
                     tags: body.tags,
-                    userId // getting under line here
+                    userId:userId // getting under line here
                 }
             }
         )
@@ -52,31 +55,31 @@ export async function GET(req: Request) {
     const tags = searchParams.get('tags')?.split(',') || [];
     const createdAt = searchParams.get("createdAt") ?? undefined;
 
-    const where: Prisma.NoteWhereInput  = {
+    const where: Prisma.NoteWhereInput = {
         userId,
     };
- 
+
 
     let isfilter = false
     if (title) {
         where.title = { contains: title, mode: "insensitive" };
         isfilter = true
-    } 
+    }
     if (text) {
         where.text = { contains: text, mode: "insensitive" };
         isfilter = true
     }
     if (tags.length > 0) {
-        
-         where.tags = { hasSome: tags }; // red line under hasSome
-         isfilter = true
+
+        where.tags = { hasSome: tags }; // red line under hasSome
+        isfilter = true
     }
     if (createdAt) {
-         where.createdAt = { gte: new Date(createdAt) };
-         isfilter = true
+        where.createdAt = { gte: new Date(createdAt) };
+        isfilter = true
     }
-    
- 
+
+
     // console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     //     console.log(where)
 
@@ -90,7 +93,6 @@ export async function GET(req: Request) {
 
     // console.log('***********************************************8')
     // console.log(notes)
-    return NextResponse.json({notes, isfilter}, { status: 200 });
+    return NextResponse.json({ notes, isfilter }, { status: 200 });
 }
 
- 

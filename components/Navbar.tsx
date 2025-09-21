@@ -4,7 +4,7 @@ import NavLinks from "./NavLinks"
 import { SignedIn, SignedOut, SignIn, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs"
 const Navbar = () => {
     const user = checkUser()
-    // console.log('user: ', user)
+    console.log('user: ', user)
     return (
         <div>
 

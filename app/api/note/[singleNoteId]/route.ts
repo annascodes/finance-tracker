@@ -41,8 +41,8 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ singl
         const delNote = await db.note.delete({
             where: { userId, id: singleNoteId }
         })
-        console.log('-----------JUST DELETED THIS---------------')
-        console.log(delNote)
+        // console.log('-----------JUST DELETED THIS---------------')
+        // console.log(delNote)
         return NextResponse.json({ delId: delNote.id, delNoteTitle:delNote.title, success: true, message: 'Deleted successfully' }, { status: 200 })
 
     } catch (error) {

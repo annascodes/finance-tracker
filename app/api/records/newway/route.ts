@@ -30,7 +30,7 @@ export async function GET(req: Request) {
     if (amount && amount!=='undefined' && amount!='') {
         // console.log(`-----amount-----`)
         // console.log(amount)
-        console.log(typeof amount)
+        // console.log(typeof amount)
         filterData['amount']= amount;
         where.amount = {lte: Number(amount)};
     }
