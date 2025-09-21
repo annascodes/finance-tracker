@@ -28,37 +28,38 @@ type NotesResponse = {
     notes: Note[];
     isfilter?: boolean;
 };
+type DeleteResponse = {
+  delId: string;
+  success: boolean;
+  message: string;
+};
 
 const Page = () => {
     const [query, setQuery] = useState<Query>({}) // vercel error: on this line
     const [data, setData] = useState<NotesResponse | null>(null) // having all the notes
     const [delPermit, setDelPermit] = useState<string | null>(null)
 
-    const { request, data: data_, loading, error } = useApiReq()
-    const { request: delReq, data: delData, loading: delLoading, error: delError } = useApiReq()
+    const { request, data: data_, loading, error } = useApiReq<NotesResponse> ()
+    const { request: delReq, data: delData, loading: delLoading, error: delError } = useApiReq <DeleteResponse>()
     useEffect(() => {
         request('/api/note')
 
     }, [])
     useEffect(() => {
         if (data_) {
-            setData(data_)
+            setData(data_)  // red line under data_
         }
     }, [data_])
     useEffect(() => {
-        // if (!delData && delPermit) // when no delData but delPermit
-        // {
-        //     console.log('---------------------------------ONE')
-        //     // console.log('deleting this note: ', delPermit)
-        //     delReq(`/api/note/${d    elPermit}`, 'DELETE')
-        // }
-        if (delData && delData.success) {
+       
+        if (delData && delData.success) // red line under .success
+             {
             console.log('---------------------------------TWO')
             toast.custom(() => (
                 <div className="bg-neutral-200 p-4 rounded-xl shadow-md flex items-center gap-2">
                     <IoMdCheckmark className='text-green-500 text-2xl' />
                     <p className='text-stone-700 font-bold tracking-wider'>
-                        {`Note ${delData.delNoteTitle} has Deleted Successfully`}  </p>
+                        {`Note has Deleted Successfully`}  </p>
                 </div>
             ))
 
@@ -69,6 +70,7 @@ const Page = () => {
                     notes: prev.notes.filter((n: Note) => n.id !== delData.delId),
                 };
             });
+            // red line under .delId
 
 
             setDelPermit(null)
@@ -79,13 +81,12 @@ const Page = () => {
 
         if (delPermit) // when no delData but delPermit
         {
-            // console.log('-------- --------ONE---delPermit:', delPermit)
-            // console.log('deleting this note: ', delPermit)
+            
             delReq(`/api/note/${delPermit}`, 'DELETE')
         }
     }, [delPermit])
     const handleFilterNotes = () => {
-        // console.log('query: ', query)
+        
         const params = new URLSearchParams();
         if (query.tags && query.tags.length > 0) params.append('tags', query.tags.join(','));
         if (query.title) params.append('title', query.title);
