@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import colors from 'colors'
 
 export async function GET(req: Request) {
   const user = await currentUser();
@@ -11,7 +12,8 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const amount = searchParams.get('amount')
   const category = searchParams.get('category')
-  const date = searchParams.get('date')
+  const date = searchParams.get('date') // 2025-09-08
+
 
   const where: any = { userId: user.id }
 
@@ -19,7 +21,7 @@ export async function GET(req: Request) {
     console.log('---------------------amount----:', amount)
     where.amount = { lte: Number(amount) };
   }
-  if (category) {
+  if (category && category !== 'Null') {
     console.log('---------------------category----:', category)
     where.category = category;
   }

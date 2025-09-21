@@ -30,13 +30,13 @@ const MobileHeader = () => {
             <SignedIn>
                 <div className='flex justify-between items-center'>
                     <Drawer/>
-                    <Link href={'/'} className="text-xl md:text-3xl font-bold ">Finance <span className="text-sm tracking-wider">Tracker.</span> </Link>
+                    <Link href={'/'} className="text-xl md:text-3xl font-bold ">Finance <span className="text-sm tracking-wider">Tracker</span> </Link>
 
                     <div className='mx-5'>
                         <UserButton />
                     </div>
                 </div>
-                <div className='hidden flex flex-row justify-around  w-full gap-4 p-2 overflow-x-auto'>
+                {/* <div className='hidden flex flex-row justify-around  w-full gap-4 p-2 overflow-x-auto'>
                     <Link href={'/'} className={`${linkCss}`}>
                         <LuHouse className={`${iconCss}`} />
                         <span className={`${css}`} >Home</span>
@@ -58,7 +58,7 @@ const MobileHeader = () => {
                         <span className={`${css}`} >Notes</span>
                     </Link>
 
-                </div>
+                </div> */}
 
             </SignedIn>
 

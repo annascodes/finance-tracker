@@ -47,7 +47,7 @@ export default function RootLayout({
               <div className="hidden md:flex h-svh sticky top-0"> <Header /></div>
               <div className="flex md:hidden w-full fixed top-0 z-50"><MobileHeader /> </div>
             </div>
-            <div className="p-2 mt-24 md:mt-0 md:w-10/12 w-full ">
+            <div className="p-2 mt-16 md:mt-0 md:w-10/12 w-full ">
               {children}
             </div>
           </div>

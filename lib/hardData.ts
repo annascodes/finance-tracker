@@ -9,7 +9,7 @@ import {
 } from "react-icons/lu";
 import { LuMilk } from "react-icons/lu";
 import { MdOutlineLocalDrink } from "react-icons/md";
-import { IoIosWater } from "react-icons/io";
+import { IoIosClose, IoIosWater } from "react-icons/io";
 
 
 
@@ -35,6 +35,7 @@ export const TAG_OPTIONS: string[] = Object.values(Tag);
 
 
 export const categories = [
+  { label: "Null", icon: IoIosClose },
     { label: "Food", icon: LuUtensils },
     { label: "Milk", icon: LuMilk },
     { label: "Water", icon: IoIosWater },
@@ -42,6 +43,8 @@ export const categories = [
     { label: "Shopping", icon: LuShoppingBag },
     { label: "Bills", icon: LuReceipt },
     { label: "Other", icon: LuTag },
+    
+    
 ];
 
 

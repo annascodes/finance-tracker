@@ -7,6 +7,8 @@ import {
   LuTag,
   LuMilk,
 } from "react-icons/lu";
+import { IoIosClose } from "react-icons/io";
+
 import { MdOutlineLocalDrink } from "react-icons/md";
 import { IoIosWater } from "react-icons/io";
 
@@ -19,6 +21,7 @@ const categoryIcons: Record<string, React.ElementType> = {
   Shopping: LuShoppingBag,
   Bills: LuReceipt,
   Other: LuTag,
+  Null:  IoIosClose,
 };
 
 // Define props type

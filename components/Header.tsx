@@ -46,10 +46,15 @@ const Header = ({onView}:PropType) => {
                         <HiOutlineViewGrid className='text-xl ' />
                         <span className={`${linkTitleCss}`} >Dashboard</span>
                     </Link>
-                    <Link href={'/records'} className={`${classname}
+                    {/* <Link href={'/records'} className={`${classname}
                      ${pathName === '/records' && 'btn-active'}`}>
                         <LuBookText className='text-xl ' />
                         <span className={`${linkTitleCss}`}>All Records</span>
+                    </Link> */}
+                    <Link href={'/newrecords'} className={`${classname}
+                     ${pathName === '/newrecords' && 'btn-active'}`}>
+                        <LuBookText className='text-xl ' />
+                        <span className={`${linkTitleCss}`}> Records</span>
                     </Link>
                     <Link href={'/records/addRecord'} className={`${classname}
                      ${pathName === '/records/addRecord' && 'btn-active'}`}>
