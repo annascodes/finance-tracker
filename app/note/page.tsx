@@ -46,24 +46,22 @@ const Page = () => {
         }
     }, [data_])
     useEffect(() => {
-
-        if (!delData && delPermit) // when no delData but delPermit
-        {
-            // console.log('deleting this note: ', delPermit)
-            delReq(`/api/note/${delPermit}`, 'DELETE')
-        }
+        // if (!delData && delPermit) // when no delData but delPermit
+        // {
+        //     console.log('---------------------------------ONE')
+        //     // console.log('deleting this note: ', delPermit)
+        //     delReq(`/api/note/${d    elPermit}`, 'DELETE')
+        // }
         if (delData && delData.success) {
+            console.log('---------------------------------TWO')
             toast.custom(() => (
                 <div className="bg-neutral-200 p-4 rounded-xl shadow-md flex items-center gap-2">
                     <IoMdCheckmark className='text-green-500 text-2xl' />
                     <p className='text-stone-700 font-bold tracking-wider'>
-                        {'Note has Deleted Successfully'}  </p>
+                        {`Note ${delData.delNoteTitle} has Deleted Successfully`}  </p>
                 </div>
             ))
-            // console.log(delData.message)
-            // setData((prev:any)=> prev.filter((n:any)=>n.id !== delData.delId))
 
-            // setData((prev: any) => ({ ...prev, notes: prev.notes.filter((n: any) => n.id !== delData.delId) }))
             setData((prev) => {
                 if (!prev) return prev; // handle the case where prev is null
                 return {
@@ -75,7 +73,17 @@ const Page = () => {
 
             setDelPermit(null)
         }
-    }, [delPermit, delData])
+    }, [ delData])
+    useEffect(() => {
+        // console.log('-----------------delPermit: ', delPermit)
+
+        if (delPermit) // when no delData but delPermit
+        {
+            // console.log('-------- --------ONE---delPermit:', delPermit)
+            // console.log('deleting this note: ', delPermit)
+            delReq(`/api/note/${delPermit}`, 'DELETE')
+        }
+    }, [delPermit])
     const handleFilterNotes = () => {
         // console.log('query: ', query)
         const params = new URLSearchParams();
@@ -90,7 +98,6 @@ const Page = () => {
 
 
     }
-    // console.log('data: ', data)
 
     return (
         <div>
@@ -174,6 +181,8 @@ const Page = () => {
 
 
                             </div>
+                               <p className='text-[10px] tracking-widest'> {n.id}</p>
+
                             <h1 className='text-lg font-bold tracking-wider'>{n.title.slice(0, 30)}</h1>
                             <h1 className=' whitespace-pre-line    h-44 my-5 overflow-auto'>
                                 <p className='font-semibold'> {n.title}</p>

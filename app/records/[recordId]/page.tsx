@@ -21,6 +21,7 @@ import moment from 'moment';
 import RecordEditModal from '@/components/RecordEditModal';
 import DeletePermitModal from '@/components/DeletePermitModal';
 import toast from 'react-hot-toast';
+import { RecordType } from '@/lib/types';
 
 const categories = [
     { label: "Food", icon: LuUtensils },
@@ -30,20 +31,20 @@ const categories = [
     { label: "Other", icon: LuTag },
 ];
 
-type RecordType = {
-    id: string;
-    text: string;
-    amount: number;
-    category: string;
-    date: string;      // ISO string
-    userId: string;
-    createdAt: string; // ISO string
-    user: {
-        email: string;
-        imageUrl: string;
-        name: string;
-    };
-};
+// type RecordType = {
+//     id: string;
+//     text: string;
+//     amount: number;
+//     category: string;
+//     date: string;      // ISO string
+//     userId: string;
+//     createdAt: string; // ISO string
+//     user: {
+//         email: string;
+//         imageUrl: string;
+//         name: string;
+//     };
+// };
 
 const Page = ({ params }: { params: Promise<{ recordId: string }> }) => {
 
@@ -104,14 +105,19 @@ const Page = ({ params }: { params: Promise<{ recordId: string }> }) => {
                     {
                         !delData &&
                         <div className='mx-auto max-w-lg flex justify-end items-center gap-5 w-full px-5'>
-                            <RecordEditModal id={data.id} preBuilt={data} setData={setData} />
-                            <DeletePermitModal
-                                id={data.id}
-                                setPermit={setDelPermit}
-                                permit={delPermit}
-                                prompt={'Do really want to delete this record, it would be deleted permanently.'}
-                                loading={delLoading}
-                            />
+                            {
+                                data?.id &&
+                                <>
+                                    <RecordEditModal id={data.id} preBuilt={data} setData={setData} />
+                                    <DeletePermitModal
+                                        id={data.id}
+                                        setPermit={setDelPermit}
+                                        permit={delPermit}
+                                        prompt={'Do really want to delete this record, it would be deleted permanently.'}
+                                        loading={delLoading}
+                                    />
+                                </>
+                            }
                         </div>
                     }
 

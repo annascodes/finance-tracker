@@ -41,6 +41,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // console.log('--------------------------------------------------------------------')
     const { searchParams } = new URL(req.url);
     // console.log(searchParams)
 
@@ -66,6 +67,7 @@ export async function GET(req: Request) {
         isfilter = true
     }
     if (tags.length > 0) {
+        
          where.tags = { hasSome: tags }; // red line under hasSome
          isfilter = true
     }
@@ -75,6 +77,8 @@ export async function GET(req: Request) {
     }
     
  
+    // console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    //     console.log(where)
 
     const notes = await db.note.findMany({
         where,
@@ -84,6 +88,8 @@ export async function GET(req: Request) {
         },
     });
 
+    // console.log('***********************************************8')
+    // console.log(notes)
     return NextResponse.json({notes, isfilter}, { status: 200 });
 }
 

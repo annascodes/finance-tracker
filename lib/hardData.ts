@@ -1,5 +1,4 @@
 import moment from "moment";
-import { Tag } from "@prisma/client";
 import {
     LuUtensils,
     LuBus,
@@ -31,7 +30,7 @@ export const convertDate = (dateValue: string| Date) => {
 
 
 
-export const TAG_OPTIONS: string[] = Object.values(Tag);
+// export const TAG_OPTIONS: string[] = Object.values(Tag);
 
 
 export const categories = [
