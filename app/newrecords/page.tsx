@@ -4,9 +4,9 @@ import RecordStats from '@/components/newRecords/RecordStats'
 import RecrodsTable from '@/components/newRecords/RecrodsTable'
 import { categories } from '@/lib/hardData'
 import { useApiReq } from '@/lib/hooks/useApiReq'
-import React, {   useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GoArrowLeft, GoArrowRight } from 'react-icons/go'
-import {  LuFilter } from "react-icons/lu";
+import { LuFilter } from "react-icons/lu";
 
 
 type FilterFormProp = {
@@ -15,13 +15,40 @@ type FilterFormProp = {
     startDate?: string,
     endDate?: string
 }
+// ----
+type RecordItem = {
+    id: string;
+    amount: number;
+    category: string;
+    date: string;
+    // add more fields if needed
+};
+type FilterData = {
+  startDate?: string;
+  endDate?: string;
+  amount?: string | number;
+  category?: string;
+};
+
+type RecordsResponse = {
+    records: RecordItem[];
+    nextCursor?: string;
+    report: {
+        _count: { _all: number };
+        _sum: { amount: number };
+    };
+    filterData?: FilterData; // refine if you know the shape
+};
+
+
+// ----
 
 const Page = () => {
     const fLabelCss = 'text-xs mb-0.5 mt-5'
     const [filterForm, setFilterForm] = useState<FilterFormProp>({}) // error by versel: for this line
-    const { request, data, loading, error } = useApiReq()
+    const { request, data, loading, error } = useApiReq<RecordsResponse>()
     const [records, setRecords] = useState<object[]>([])
-    const { request: fRequest, data: fData, loading: fLoading, error: fError } = useApiReq()
+    const { request: fRequest, data: fData, loading: fLoading, error: fError } = useApiReq<RecordsResponse>()
     const [isFiltered, setIsFiltered] = useState(false)
 
     const handleSetFilterForm = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -40,12 +67,15 @@ const Page = () => {
     }, [])
     useEffect(() => {
         if (data) {
-            setRecords([...records, ...data.records])
+            // setRecords([...records, ...data.records]) //red line under records
+            setRecords((prev) => [...prev, ...data.records]);
         }
     }, [data])
     useEffect(() => {
         if (fData) {
-            setRecords([...records, ...fData.records])
+            // setRecords([...records, ...fData.records]) //red line under records
+            setRecords((prev) => [...prev, ...fData.records]);
+
         }
     }, [fData])
 
@@ -169,10 +199,11 @@ const Page = () => {
             {/* stats  */}
 
             {
-                (fData && isFiltered) && <RecordStats
-                    records={fData.report._count._all}
-                    amount={fData.report._sum.amount}
-                    filterData={fData.filterData}
+                (fData && isFiltered) &&
+                <RecordStats
+                    records={fData.report._count._all} // red line under report solved
+                    amount={fData.report._sum.amount} // red line under report solved
+                    filterData={fData.filterData} // red line under filterData WHICH IS LEFT SIDE OF THE EQUAL UNSOLVED
 
                 />
             }
@@ -187,7 +218,7 @@ const Page = () => {
                         if (isFiltered) {
                             handleFilterBtn()
                         } else {
-                              setRecords([])
+                            setRecords([])
                             request(`/api/records/newway`)
                         }
                     }}
@@ -204,6 +235,7 @@ const Page = () => {
 
             {/* see more: non filter  */}
 
+            {/* red line under nextCursor below */}
             {
                 (data && data.nextCursor && !isFiltered) &&
                 <button
@@ -219,7 +251,7 @@ const Page = () => {
             }
 
             {/* see more: filter  */}
-
+            {/* red line under nextCursor below */}
             {
                 (fData && fData.nextCursor && isFiltered) &&
                 <button
@@ -235,15 +267,6 @@ const Page = () => {
             }
 
 
-
-            {/* 0000000000000000000000000000000 */}
-            {/* 
-            <pre className='text-blue-400 text-xs tracking-widest'>
-                data:  {data && JSON.stringify(data, null, 10)}
-            </pre>
-            <pre className='text-pink-400 text-xs tracking-widest'>
-                fData  {fData && JSON.stringify(fData, null, 10)}
-            </pre> */}
 
 
 

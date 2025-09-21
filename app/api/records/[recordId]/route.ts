@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import moment from "moment";
 
-export async function GET(req: Request, { params }: { params: { recordId: string } }) {
-    const { recordId } = params;
+export async function GET(req: Request, { params }: { params: Promise<{ recordId: string }> }) {
+    const { recordId } =await params;
     // console.log(`-------------------single record fetching-------------`.bgYellow)
     const record = await db.record.findUnique(
         {
@@ -21,10 +21,10 @@ export async function GET(req: Request, { params }: { params: { recordId: string
     return NextResponse.json(record)
 }
 
-export async function PUT(req: Request, { params }: { params: { recordId: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ recordId: string }> }) {
     const body = await req.json()
 
-    const { recordId } = params;
+    const { recordId } = await params;
     const { userId } = await auth()
     if (!userId)
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -56,13 +56,14 @@ export async function PUT(req: Request, { params }: { params: { recordId: string
     }
 }
 
-export async function DELETE(req: Request, { params }: { params: { recordId: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ recordId: string }> }) {
     const { userId } = await auth()
+    const {recordId} = await params;
     if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     try {
         const delRecord = await db.record.delete({
             where: {
-                id: params.recordId,
+                id: recordId,
                 userId,
             }
         })

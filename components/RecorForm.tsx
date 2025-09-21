@@ -57,7 +57,7 @@ const RecordForm = ({ preBuilt, setData }: PropType) => {
     const [category, setCategory] = useState("Other");
     const [date, setDate] = useState<string | Date>("");
     const [loading, setLoading] = useState(false)
-    const { request: updRequest, data: updData, loading: updLoading, error: updError } = useApiReq()
+    const { request: updRequest, data: updData, loading: updLoading, error: updError } = useApiReq<RecordType>()
 
     useEffect(() => {
         if (preBuilt) {

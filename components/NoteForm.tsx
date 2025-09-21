@@ -38,9 +38,7 @@ const tagOptions = [
     { value: "BILLS", label: "Bills", icon: FileText },
     { value: "OTHER", label: "Other", icon: MoreHorizontal },
 ];
-interface NoteFormProps {
-    onSubmit: (note: { title: string; text: string; tags: string[] }) => void;
-}
+ 
 type PropType = {
     preBuilt?: Note
     setData: Dispatch<SetStateAction<NotesResponse | null>>
@@ -54,8 +52,8 @@ export default function NoteForm({ preBuilt, setData }: PropType) {
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [tags, setTags] = useState<string[]>([]);
-    const { request, data, loading, error } = useApiReq()
-    const { request: updReq, data: updData, loading: updLoading, error: updError } = useApiReq()
+    const { request, data, loading, error } = useApiReq<Note>()
+    const { request: updReq, data: updData, loading: updLoading, error: updError } = useApiReq<Note>()
     useEffect(() => {
         if (preBuilt) {
             setTitle(preBuilt.title ?? "");
@@ -97,6 +95,7 @@ export default function NoteForm({ preBuilt, setData }: PropType) {
         if (data) {
             // push new one in existing 
             // setData((prev: any) => ({ ...prev, notes: [data, ...prev.notes] }))
+            //// RED LINE UNDER prev BELOW
             setData((prev) => {
                 if(!prev) return prev
                 return { ...prev, notes: [data, ...prev.notes] }
@@ -106,6 +105,7 @@ export default function NoteForm({ preBuilt, setData }: PropType) {
     useEffect(() => {
         if (updData) {
             // push new one in existing 
+             //// RED LINE UNDER prev BELOW ALSO UNDER .id OF upData.id
             setData((prev) => {
                 if(!prev) return prev;
                 return{
@@ -128,6 +128,7 @@ export default function NoteForm({ preBuilt, setData }: PropType) {
             </h2>
 
             {/* success div after post  */}
+            {/* also below data too RED LINE */}
             {data &&
                 <div className="text-xs flex items-center gap-2 bg-green-950 p-2 rounded-lg">
 
