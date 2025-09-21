@@ -1,6 +1,5 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
-import colors from 'colors'
 import { auth } from "@clerk/nextjs/server";
 import moment from "moment";
 

@@ -3,26 +3,11 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Outfit } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import Navbar from "@/components/Navbar";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/Header";
 import MobileHeader from "@/components/MobileHeader";
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--font-outfit", // exposes a CSS variable
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+ 
 
 export const metadata: Metadata = {
   title: "Finance Tracker",

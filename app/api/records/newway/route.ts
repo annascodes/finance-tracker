@@ -1,7 +1,6 @@
 import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import color from 'colors'
 import type { Prisma } from "@prisma/client";
 
 export async function GET(req: Request) {

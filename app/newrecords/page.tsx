@@ -1,12 +1,12 @@
 'use client'
-import BreadCrumbs from '@/components/BreadCrumbs'
+import ErrorDiv from '@/components/ErrorDiv'
 import RecordStats from '@/components/newRecords/RecordStats'
 import RecrodsTable from '@/components/newRecords/RecrodsTable'
 import { categories } from '@/lib/hardData'
 import { useApiReq } from '@/lib/hooks/useApiReq'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, {   useEffect, useState } from 'react'
 import { GoArrowLeft, GoArrowRight } from 'react-icons/go'
-import { LuBadgeDollarSign, LuBookText, LuFilter } from "react-icons/lu";
+import {  LuFilter } from "react-icons/lu";
 
 
 type FilterFormProp = {
@@ -81,6 +81,8 @@ const Page = () => {
 
 
             </div>
+            {error && <ErrorDiv error={error} />}
+            {fError && <ErrorDiv error={fError} />}
 
             {/* <BreadCrumbs crumbs={[
                 { label: 'newrecord', type: 'folder' },
