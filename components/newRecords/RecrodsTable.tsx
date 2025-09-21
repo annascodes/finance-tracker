@@ -30,7 +30,7 @@ const RecrodsTable = ({ records }: PropType ) => {
                         {records.map((r, i) => {
                              const record = r as RecordType;
                             return (
-                                <tr>
+                                <tr key={record.id}>
                                     <th >{++i}</th>
                                     <td className={`${tableCss}`}>{moment(record.date).format('Do MMM YYYY')}</td>
                                     <td className={`${tableCss}`}>{moment(record.createdAt).format('Do MMM YYYY')}</td>

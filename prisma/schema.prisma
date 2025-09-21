@@ -54,7 +54,7 @@ model Note{
   id String @id @default(uuid())
   title String 
   text String 
-  tags Tag[]
+  tags String[]
   userId String
   user User @relation(fields: [userId], references: [clerkUserId],onDelete: Cascade)
   createdAt DateTime @default(now())

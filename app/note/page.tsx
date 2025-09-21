@@ -147,7 +147,7 @@ const Page = () => {
             <div className='flex items-center flex-wrap flex-row justify-center my-10 gap-2'>
                 {data && data.notes.map((n: Note) => {
                     return (
-                        <div className='border border-stone-600 p-3 max-w-xs min-w-xs min-h-56'>
+                        <div key={`${n.id}`} className='border border-stone-600 p-3 max-w-xs min-w-xs min-h-56'>
                             <div className='flex justify-end items-center gap-2'>
 
                                 <h1 className='text-xs opacity-35'>

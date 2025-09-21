@@ -1,6 +1,8 @@
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
+
 
 export async function POST(req: Request) {
     const body = await req.json()
@@ -49,12 +51,10 @@ export async function GET(req: Request) {
     const tags = searchParams.get('tags')?.split(',') || [];
     const createdAt = searchParams.get("createdAt") ?? undefined;
 
-    const where: any = {
+    const where: Prisma.NoteWhereInput  = {
         userId,
     };
-
-    // console.log(`--------------------TAGS:--------------------`)
-    // console.log(tags)
+ 
 
     let isfilter = false
     if (title) {
@@ -66,7 +66,7 @@ export async function GET(req: Request) {
         isfilter = true
     }
     if (tags.length > 0) {
-         where.tags = { hasSome: tags };
+         where.tags = { hasSome: tags }; // red line under hasSome
          isfilter = true
     }
     if (createdAt) {
@@ -74,8 +74,7 @@ export async function GET(req: Request) {
          isfilter = true
     }
     
-    // console.log(`^^^^^^^^^^^^^^^^^^^^^^^^^^where^^^^^^^^^^^^^^^^^^^6`)
-    // console.log(where)
+ 
 
     const notes = await db.note.findMany({
         where,

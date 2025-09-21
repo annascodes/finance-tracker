@@ -16,7 +16,7 @@ type FilterFormProp = {
     endDate?: string
 }
 
-const page = () => {
+const Page = () => {
     const fLabelCss = 'text-xs mb-0.5 mt-5'
     const [filterForm, setFilterForm] = useState<FilterFormProp>({}) // error by versel: for this line
     const { request, data, loading, error } = useApiReq()
@@ -252,4 +252,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
