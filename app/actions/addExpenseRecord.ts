@@ -2,11 +2,11 @@
 import { auth } from '@clerk/nextjs/server';
 import { db } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
-import { convertDate } from '@/lib/hardData';
 import moment from 'moment';
+import { RecordType } from '@/lib/types';
 
 interface RecordData {
-     id:String;
+     id:string;
     text: string;
     amount: number;
     category: string;
@@ -18,14 +18,14 @@ interface RecordResult {
     error?: string;
 }
 
-type RecordType = {
+// type RecordType = {
    
-    text: String;
-    amount: Number;
-    category: String;
-    date: Date;
+//     text: string;
+//     amount: number;
+//     category: string;
+//     date: Date;
 
-}
+// }
 
 async function addExpenseRecord(formData: RecordType): Promise<RecordResult> {
     /*   const textValue = formData.get('text');
@@ -37,8 +37,8 @@ async function addExpenseRecord(formData: RecordType): Promise<RecordResult> {
     const categoryValue = formData.category;
     const dateValue = formData.date;
 
-    console.log('whats in dateValue: ', dateValue)
-    console.log('type of dateValue: ', typeof dateValue)
+    // console.log('whats in dateValue: ', dateValue)
+    // console.log('type of dateValue: ', typeof dateValue)
     // Check for input values
     if (
         !textValue ||

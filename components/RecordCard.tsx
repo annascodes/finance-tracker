@@ -3,24 +3,25 @@ import { Calendar, User, Tag, DollarSign, FileText, Image as ImageIcon } from "l
 import { PiMoneyBold } from "react-icons/pi";
 import RecordCategory from "./RecordCategory";
 import moment from "moment";
+import { RecordType } from "@/lib/types";
 
 
-type RecordProps = {
-    id: string;
-    text: string;
-    amount: number;
-    category: string;
-    date: string;      // ISO string
-    userId: string;
-    createdAt: string; // ISO string
-    user: {
-        email: string;
-        imageUrl: string;
-        name: string;
-    };
-};
+// type RecordProps = {
+//     id: string;
+//     text: string;
+//     amount: number;
+//     category: string;
+//     date: string;      // ISO string
+//     userId: string;
+//     createdAt: string; // ISO string
+//     user: {
+//         email: string;
+//         imageUrl: string;
+//         name: string;
+//     };
+// };
 
-const RecordCard = ({ record }: { record: RecordProps }) => {
+const RecordCard = ({ record }: { record: RecordType }) => {
     return (
         <div className="card w-sm md:w-xl  bg-base-100 shadow-md rounded-2xl p-4 flex flex-col gap-3 border border-neutral-700">
 
@@ -32,7 +33,7 @@ const RecordCard = ({ record }: { record: RecordProps }) => {
 
             {/* Top: User Info */}
             <div className="flex items-center gap-3">
-                {record.user.imageUrl ? (
+                {record?.user?.imageUrl ? (
                     <img
                         src={record.user.imageUrl}
                         alt={record.user.name}
@@ -46,9 +47,9 @@ const RecordCard = ({ record }: { record: RecordProps }) => {
                 <div>
                     <p className="font-semibold flex items-center gap-2">
                         {/* <User className="w-4 h-4 text-primary" /> */}
-                        {record.user.name}
+                        { record?.user?.name}
                     </p>
-                    <p className="text-sm text-base-content/60">{record.user.email}</p>
+                    <p className="text-sm text-base-content/60">{record?.user?.email}</p>
                 </div>
             </div>
 

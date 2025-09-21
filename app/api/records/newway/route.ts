@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import color from 'colors'
+import type { Prisma } from "@prisma/client";
 
 export async function GET(req: Request) {
     
@@ -18,19 +19,18 @@ export async function GET(req: Request) {
     const cursor = searchParams.get("cursor"); // last record id
     const limit = Number(searchParams.get("limit")) || 5;
 
-    const where: any = { userId: user.id };
-    let filterData:{[key:string]:string}={};
+    const where: Prisma.RecordWhereInput = { userId: user.id };  //FFV
+    const filterData:{[key:string]:string}={};
 
-    console.log( `------------inspection`.bgYellow)
     if (category && category!=='undefined' && category!='' && category!=='Null') {
-        console.log(`-----category-----` )
-        console.log(category)
+        // console.log(`-----category-----` )
+        // console.log(category)
         filterData['category'] = category
         where.category = category;
     }
     if (amount && amount!=='undefined' && amount!='') {
-        console.log(`-----amount-----`)
-        console.log(amount)
+        // console.log(`-----amount-----`)
+        // console.log(amount)
         console.log(typeof amount)
         filterData['amount']= amount;
         where.amount = {lte: Number(amount)};
@@ -39,10 +39,10 @@ export async function GET(req: Request) {
     if (startDate && endDate && startDate!=='undefined' && startDate!='' && endDate!=='undefined' && endDate!='') {
         filterData['startDate']=startDate
         filterData['endDate']=endDate
-        console.log(`-----startDate-----` )
-        console.log(startDate)
-        console.log(`-----endDate-----` )
-        console.log(endDate)
+        // console.log(`-----startDate-----` )
+        // console.log(startDate)
+        // console.log(`-----endDate-----` )
+        // console.log(endDate)
         where.date = {
             gte: new Date(startDate), // >= startDate
             lte: new Date(new Date(endDate).setHours(23, 59, 59, 999)), // <= endDate

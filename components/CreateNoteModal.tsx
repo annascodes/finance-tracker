@@ -2,8 +2,20 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { LuNotebookPen } from 'react-icons/lu';
 import NoteForm from './NoteForm';
+type Note = {
+    id: string;
+    title: string;
+    text: string;
+    tags: string[];
+    createdAt: string;
+};
+
+type NotesResponse = {
+    notes: Note[];
+    isfilter?: boolean;
+};
 type PropType={
-    setData: Dispatch<SetStateAction<any>>
+    setData: Dispatch<SetStateAction<NotesResponse | null>>
 }
 
 const CreateNoteModal = ({setData}:PropType) => {

@@ -18,7 +18,7 @@ type FilterFormProp = {
 
 const page = () => {
     const fLabelCss = 'text-xs mb-0.5 mt-5'
-    const [filterForm, setFilterForm] = useState<FilterFormProp>({})
+    const [filterForm, setFilterForm] = useState<FilterFormProp>({}) // error by versel: for this line
     const { request, data, loading, error } = useApiReq()
     const [records, setRecords] = useState<object[]>([])
     const { request: fRequest, data: fData, loading: fLoading, error: fError } = useApiReq()
@@ -29,7 +29,7 @@ const page = () => {
 
     }
     const handleFilterBtn = () => {
-        console.log('filterForm: ', filterForm)
+        // console.log('filterForm: ', filterForm)
         setRecords([])
         setIsFiltered(true)
         fRequest(`/api/records/newway?amount=${filterForm?.amount}&category=${filterForm.category}&startDate=${filterForm.startDate}&endDate=${filterForm.endDate}`)

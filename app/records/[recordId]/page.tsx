@@ -30,9 +30,24 @@ const categories = [
     { label: "Other", icon: LuTag },
 ];
 
-const page = ({ params }: { params: Promise<{ recordId: string }> }) => {
+type RecordType = {
+    id: string;
+    text: string;
+    amount: number;
+    category: string;
+    date: string;      // ISO string
+    userId: string;
+    createdAt: string; // ISO string
+    user: {
+        email: string;
+        imageUrl: string;
+        name: string;
+    };
+};
 
-    const [data, setData] = useState<any | null>(null)
+const Page = ({ params }: { params: Promise<{ recordId: string }> }) => {
+
+    const [data, setData] = useState<RecordType | null>(null) // versel error for any type
     const [delPermit, setDelPermit] = useState<string | null>(null)
 
 
@@ -127,4 +142,4 @@ const page = ({ params }: { params: Promise<{ recordId: string }> }) => {
     )
 }
 
-export default page
+export default Page

@@ -2,6 +2,8 @@ import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import colors from 'colors'
+import type { Prisma } from "@prisma/client";
+
 
 export async function GET(req: Request) {
   const user = await currentUser();
@@ -15,18 +17,18 @@ export async function GET(req: Request) {
   const date = searchParams.get('date') // 2025-09-08
 
 
-  const where: any = { userId: user.id }
+  const where: Prisma.RecordWhereInput = { userId: user.id }
 
   if (amount) {
-    console.log('---------------------amount----:', amount)
+    // console.log('---------------------amount----:', amount)
     where.amount = { lte: Number(amount) };
   }
   if (category && category !== 'Null') {
-    console.log('---------------------category----:', category)
+    // console.log('---------------------category----:', category)
     where.category = category;
   }
   if (date) {
-    console.log('---------------------date----:', date)
+    // console.log('---------------------date----:', date)
     where.date = {
       gte: new Date(date),
       lte: new Date(new Date(date).setHours(23, 59, 59, 999)),

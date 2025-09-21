@@ -2,8 +2,14 @@
 // import { TAG_OPTIONS } from '@/lib/notesTags'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import MultiTagSelect from './MultiTagSelect'
+type Query = {
+    tags?: string[];
+    title?: string;
+    text?: string;
+    createdAt?: string;
+};
 type propType ={
-    setQuery: Dispatch<SetStateAction<any>>
+    setQuery: Dispatch<SetStateAction<Query>>
 }
 
 const NotesFilter = ({ setQuery }:propType) => {
@@ -14,7 +20,7 @@ const NotesFilter = ({ setQuery }:propType) => {
     const[form,setForm ] = useState({})
 
     useEffect(()=>{
-        setQuery((prev:any)=>{
+        setQuery((prev:Query)=>{
             return {...prev, tags: tags}
         })
     },[tags])
@@ -25,7 +31,7 @@ const NotesFilter = ({ setQuery }:propType) => {
             <fieldset className="fieldset">
                 <legend className="fieldset-legend">Title</legend>
                 <input 
-                onChange={(e)=>setQuery((prev:any)=>{
+                onChange={(e)=>setQuery((prev:Query)=>{
                     return {...prev, [e.target.name]: e.target.value }
                 })}
                 type="text" name='title' className="input" placeholder="Type here" />
@@ -34,7 +40,7 @@ const NotesFilter = ({ setQuery }:propType) => {
             <fieldset className="fieldset">
                 <legend className="fieldset-legend">Text</legend>
                 <input 
-                  onChange={(e)=>setQuery((prev:any)=>{
+                  onChange={(e)=>setQuery((prev:Query)=>{
                     return {...prev, [e.target.name]: e.target.value }
                 })}
                 type="text" name='text' className="input" placeholder="Type here" />
@@ -44,7 +50,7 @@ const NotesFilter = ({ setQuery }:propType) => {
             <fieldset className="fieldset">
                 <legend className="fieldset-legend">Created at</legend>
                 <input 
-                onChange={(e)=>setQuery((prev:any)=>{
+                onChange={(e)=>setQuery((prev:Query)=>{
                     return {...prev, [e.target.name]: e.target.value }
                 })}
                 type="date" name='createdAt' className="input" />

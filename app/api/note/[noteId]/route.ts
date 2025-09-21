@@ -2,11 +2,7 @@ import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server"
 
-type putParamType = {
-    params: {
-        noteId: string
-    }
-}
+ 
 export async function PUT(req: Request, { params }: { params: { noteId: string } }) {
     const body = await req.json()
     const { userId } = await auth()

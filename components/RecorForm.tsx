@@ -27,6 +27,7 @@ import { useApiReq } from "@/lib/hooks/useApiReq";
 import ErrorDiv from "./ErrorDiv";
 import { categories } from "@/lib/hardData";
 import { redirect } from "next/navigation";
+import { RecordType } from "@/lib/types";
 
 // const categories = [
 //     { label: "Food", icon: LuUtensils },
@@ -36,24 +37,25 @@ import { redirect } from "next/navigation";
 //     { label: "Other", icon: LuTag },
 // ];
 
-type RecordType = {
-    text: String;
-    amount: Number;
-    category: String;
+type RecordType_ = {
+    id?: string;
+    text: string;
+    amount: number;
+    category: string;
     date: Date;
 
 
 }
 
 type PropType = {
-    preBuilt?: any | null;
-    setData?: Dispatch<SetStateAction<any | null>>
+    preBuilt?: RecordType | null;
+    setData?: Dispatch<SetStateAction<RecordType | null>>
 }
 const RecordForm = ({ preBuilt, setData }: PropType) => {
     const [text, setText] = useState("");
     const [amount, setAmount] = useState<number | "">("");
     const [category, setCategory] = useState("Other");
-    const [date, setDate] = useState<string>("");
+    const [date, setDate] = useState<string | Date>("");
     const [loading, setLoading] = useState(false)
     const { request: updRequest, data: updData, loading: updLoading, error: updError } = useApiReq()
 
@@ -87,7 +89,7 @@ const RecordForm = ({ preBuilt, setData }: PropType) => {
         if (data) {
             setLoading(false)
             toast.success('Record has saved.')
-            console.log('data: ', data)
+            // console.log('data: ', data)
             redirect(`/records/${data.id}`)
         }
 
@@ -100,7 +102,7 @@ const RecordForm = ({ preBuilt, setData }: PropType) => {
     };
 
     const handleUpdate = () => {
-        console.log('updating record: ', `/api/records/${preBuilt?.id}`)
+        // console.log('updating record: ', `/api/records/${preBuilt?.id}`)
         updRequest(`/api/records/${preBuilt?.id}`, 'PUT', { text, amount, category, date })
     }
 
@@ -109,7 +111,8 @@ const RecordForm = ({ preBuilt, setData }: PropType) => {
             toast.success('Updated successfully !!!')
             if (setData)
 
-                setData((prev: any) => {
+                setData((prev) => {
+                    if (!prev) return prev;
                     console.log('prev:', prev)
                     return {
                         ...prev,

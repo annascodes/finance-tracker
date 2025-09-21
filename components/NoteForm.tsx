@@ -17,6 +17,19 @@ import MultiTagSelect from "./MultiTagSelect";
 import { useApiReq } from "@/lib/hooks/useApiReq";
 import { FaCheck } from "react-icons/fa";
 
+type Note = {
+    id: string;
+    title: string;
+    text: string;
+    tags: string[];
+    createdAt: string;
+};
+
+type NotesResponse = {
+    notes: Note[];
+    isfilter?: boolean;
+};
+
 const tagOptions = [
     { value: "WORK", label: "Work", icon: Briefcase },
     { value: "PERSONAL", label: "Personal", icon: User },
@@ -29,9 +42,14 @@ interface NoteFormProps {
     onSubmit: (note: { title: string; text: string; tags: string[] }) => void;
 }
 type PropType = {
-    preBuilt?: any
-    setData: Dispatch<SetStateAction<any>>
+    preBuilt?: Note
+    setData: Dispatch<SetStateAction<NotesResponse | null>>
+
+
 }
+
+
+
 export default function NoteForm({ preBuilt, setData }: PropType) {
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
@@ -72,23 +90,31 @@ export default function NoteForm({ preBuilt, setData }: PropType) {
             return
         }
         // console.log('Updating Note: ', note)
-        updReq(`/api/note/${preBuilt.id}`, 'PUT', note)
+        if(preBuilt)
+            updReq(`/api/note/${preBuilt.id}`, 'PUT', note)
     }
     useEffect(() => {
         if (data) {
             // push new one in existing 
-            setData((prev: any) => ({ ...prev, notes: [data, ...prev.notes] }))
+            // setData((prev: any) => ({ ...prev, notes: [data, ...prev.notes] }))
+            setData((prev) => {
+                if(!prev) return prev
+                return { ...prev, notes: [data, ...prev.notes] }
+            })
         }
     }, [data])
     useEffect(() => {
         if (updData) {
             // push new one in existing 
-            setData((prev: any) => ({
+            setData((prev) => {
+                if(!prev) return prev;
+                return{
                 ...prev,
-                notes: prev.notes.map((n:any) =>
+                notes: prev.notes.map((n:Note) =>
                     n.id === updData.id ? updData : n
                 ),
-            }))
+            }
+            })
         }
     }, [updData])
 

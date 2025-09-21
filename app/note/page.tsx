@@ -10,11 +10,28 @@ import DeletePermitModal from '@/components/DeletePermitModal'
 import toast from 'react-hot-toast'
 import { IoMdCheckmark } from "react-icons/io";
 
+type Query = {
+    tags?: string[];
+    title?: string;
+    text?: string;
+    createdAt?: string;
+};
+type Note = {
+    id: string;
+    title: string;
+    text: string;
+    tags: string[];
+    createdAt: string;
+};
 
+type NotesResponse = {
+    notes: Note[];
+    isfilter?: boolean;
+};
 
-const page = () => {
-    const [query, setQuery] = useState<any>({})
-    const [data, setData] = useState<any>(null) // having all the notes
+const Page = () => {
+    const [query, setQuery] = useState<Query>({}) // vercel error: on this line
+    const [data, setData] = useState<NotesResponse | null>(null) // having all the notes
     const [delPermit, setDelPermit] = useState<string | null>(null)
 
     const { request, data: data_, loading, error } = useApiReq()
@@ -32,7 +49,7 @@ const page = () => {
 
         if (!delData && delPermit) // when no delData but delPermit
         {
-            console.log('deleting this note: ', delPermit)
+            // console.log('deleting this note: ', delPermit)
             delReq(`/api/note/${delPermit}`, 'DELETE')
         }
         if (delData && delData.success) {
@@ -43,14 +60,24 @@ const page = () => {
                         {'Note has Deleted Successfully'}  </p>
                 </div>
             ))
-            console.log(delData.message)
+            // console.log(delData.message)
             // setData((prev:any)=> prev.filter((n:any)=>n.id !== delData.delId))
-            setData((prev: any) => ({ ...prev, notes: prev.notes.filter((n: any) => n.id !== delData.delId) }))
+
+            // setData((prev: any) => ({ ...prev, notes: prev.notes.filter((n: any) => n.id !== delData.delId) }))
+            setData((prev) => {
+                if (!prev) return prev; // handle the case where prev is null
+                return {
+                    ...prev,
+                    notes: prev.notes.filter((n: Note) => n.id !== delData.delId),
+                };
+            });
+
+
             setDelPermit(null)
         }
     }, [delPermit, delData])
     const handleFilterNotes = () => {
-        console.log('query: ', query)
+        // console.log('query: ', query)
         const params = new URLSearchParams();
         if (query.tags && query.tags.length > 0) params.append('tags', query.tags.join(','));
         if (query.title) params.append('title', query.title);
@@ -58,12 +85,12 @@ const page = () => {
         if (query.createdAt) params.append('createdAt', query.createdAt)
 
         const url = `/api/note?${params.toString()}`
-        console.log('url: ', url)
+        // console.log('url: ', url)
         request(url)
 
 
     }
-    console.log('data: ', data)
+    // console.log('data: ', data)
 
     return (
         <div>
@@ -112,13 +139,13 @@ const page = () => {
             {(data && data.notes.length === 0) &&
                 <div className='h-44 flex justify-center items-center'>
                     <p className='opacity-30'>
-                        {data.isfilter ? 'no match of this filter':" Click on top right at 'Create note' to add a new not."}
-                       </p>
+                        {data.isfilter ? 'no match of this filter' : " Click on top right at 'Create note' to add a new not."}
+                    </p>
                 </div>}
 
             {/* mapping all notes  */}
             <div className='flex items-center flex-wrap flex-row justify-center my-10 gap-2'>
-                {data && data.notes.map((n: any) => {
+                {data && data.notes.map((n: Note) => {
                     return (
                         <div className='border border-stone-600 p-3 max-w-xs min-w-xs min-h-56'>
                             <div className='flex justify-end items-center gap-2'>
@@ -134,7 +161,12 @@ const page = () => {
                                     key={`${n.id}-DeletePermitModal`}
                                     id={n.id}
                                     setPermit={setDelPermit}
-                                    prompt={<>Are you sure you want to delete this note, having title "<span className='text-2xl font-bold italic'>{n.title}</span>".</>}
+                                    prompt={
+                                        <>Are you sure you want to delete this note, having title &quot;
+                                            <span className='text-2xl font-bold italic'>{n.title}</span>&quot;.
+                                        </>
+                                    }
+
                                     loading={delLoading}
                                     permit={delPermit}
                                 />
@@ -150,7 +182,7 @@ const page = () => {
                             <div className='h-11 flex   justify-start items-center flex-wrap gap-1 '>
                                 {n.tags.map((t: string, i: number) => {
                                     return (
-                                        <div className='badge badge-success badge-xs text-xs' key={i}>{t}</div>
+                                        <div className='badge badge-success badge-xs text-xs' key={`${n.id}-${i}-tags`}>{t}</div>
                                     )
                                 })}
                             </div>
@@ -174,4 +206,5 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
+

@@ -6,7 +6,7 @@ import moment from "moment";
 
 export async function GET(req: Request, { params }: { params: { recordId: string } }) {
     const { recordId } = params;
-    console.log(`-------------------single record fetching-------------`.bgYellow)
+    // console.log(`-------------------single record fetching-------------`.bgYellow)
     const record = await db.record.findUnique(
         {
             where: {
@@ -30,7 +30,7 @@ export async function PUT(req: Request, { params }: { params: { recordId: string
     if (!userId)
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    let date = moment(body.date)
+    const  date = moment(body.date)
         .utc()
         .set({ hour: 12 }) // set noon UTC
         .toISOString();
@@ -67,7 +67,7 @@ export async function DELETE(req: Request, { params }: { params: { recordId: str
                 userId,
             }
         })
-        return NextResponse.json({success: true,}, { status: 200 })
+        return NextResponse.json({success: true,delRecord}, { status: 200 })
     } catch (error) {
         console.log('error in deleting record api/records/[recordId] DELETE', error)
         return NextResponse.json({ error: "Error in deleting record" }, { status: 500 })

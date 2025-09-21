@@ -21,7 +21,7 @@ const UserInfo = ({ user }: UserInfoProps) => {
                         <div className='font-bold text-lg'>{user.firstName} {user.lastName}</div>
                         {/* <div className="text-xs uppercase font-semibold opacity-60">Cappuccino</div> */}
                         <p className="list-col-wrap text-sm">
-                            "Cappuccino" quickly gained attention for its smooth melody and relatable themes. The song’s success propelled Sabrino into the spotlight, solidifying their status as a rising star.
+                           Quickly gained attention for its smooth melody and relatable themes. The songs success propelled Sabrino into the spotlight, solidifying their status as a rising star.
                         </p>
                         <div className='p-4 pb-2 text-xs opacity-90 tracking-wide flex flex-row gap-2 items-center'>
 

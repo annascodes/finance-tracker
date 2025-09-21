@@ -3,11 +3,22 @@ import React, { Dispatch, SetStateAction } from "react";
 import { LuPencil } from "react-icons/lu";
 import NoteForm from "./NoteForm";
 import { IoMdClose } from "react-icons/io";
+type Note = {
+    id: string;
+    title: string;
+    text: string;
+    tags: string[];
+    createdAt: string;
+};
 
+type NotesResponse = {
+    notes: Note[];
+    isfilter?: boolean;
+};
 type PropType = {
     id: string;
-    note: any;
-    setData: Dispatch<SetStateAction<any>>
+    note: Note;
+    setData: Dispatch<SetStateAction<NotesResponse | null>>
 }
 const NoteEditModal = ({ id, note, setData }: PropType) => {
     const modalId = `${id}-note-edit-modal`

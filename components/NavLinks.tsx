@@ -6,7 +6,7 @@ import Home from '../app/page';
 
 
 const NavLinks = () => {
-    const pathName: String | null = usePathname()
+    const pathName: string | null = usePathname()
     return (
         <>
             <li>

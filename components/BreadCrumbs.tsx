@@ -15,7 +15,7 @@ const BreadCrumbs = ({ crumbs }: PropType) => {
                 <ul className=''>
                     {crumbs.map(c => {
                         return (
-                            <li className='flex items-center gap-2 tracking-wider'>
+                            <li key={`${c.label}-breadcrumbs`} className='flex items-center gap-2 tracking-wider'>
                                 {c.type === 'folder' ? <LuFolder className='text-lg' /> : <LuFileText className='text-lg' />}
                                 <p>{c.label}</p>
                             </li>

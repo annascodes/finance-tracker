@@ -2,11 +2,12 @@ import React, { Dispatch, SetStateAction } from 'react'
 import { IoMdClose } from 'react-icons/io';
 import { LuPencil } from 'react-icons/lu';
 import RecordForm from './RecorForm';
+import { RecordType } from '@/lib/types';
 
 type PropType = {
     id: string;
-    preBuilt: any | null;
-    setData: Dispatch<SetStateAction<any | null>>
+    preBuilt: RecordType | null; 
+    setData: Dispatch<SetStateAction<RecordType | null>>
 }
 const RecordEditModal = ({id, preBuilt, setData}:PropType) => {
      const modalId = `${id}-recordeditmodal`

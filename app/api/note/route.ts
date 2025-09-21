@@ -1,7 +1,6 @@
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import colors from 'colors'
 
 export async function POST(req: Request) {
     const body = await req.json()
@@ -12,7 +11,7 @@ export async function POST(req: Request) {
     }
     let newNote;
     try {
-        console.log(`-----------1--------`.bgYellow)
+        // console.log(`-----------1--------`.bgYellow)
 
         newNote = await db.note.create(
             {
@@ -24,10 +23,10 @@ export async function POST(req: Request) {
                 }
             }
         )
-        console.log(`-----------2-------`.bgYellow)
+        // console.log(`-----------2-------`.bgYellow)
         return NextResponse.json(newNote, { status: 201 })
     } catch (error) {
-        console.log(`-----------3--------`.bgRed)
+        // console.log(`-----------3--------`.bgRed)
         console.log(error)
 
         return NextResponse.json({ error: 'Error in creating note' }, { status: 500 })
@@ -41,8 +40,7 @@ export async function GET(req: Request) {
     }
 
     const { searchParams } = new URL(req.url);
-    console.log(`###########################`)
-    console.log(searchParams)
+    // console.log(searchParams)
 
     const title = searchParams.get("title") ?? undefined;// ??=>keep '' as ''
     // const title = searchParams.get("title") || undefined; //turn''empty string to undefine 
@@ -55,8 +53,8 @@ export async function GET(req: Request) {
         userId,
     };
 
-    console.log(`--------------------TAGS:--------------------`)
-    console.log(tags)
+    // console.log(`--------------------TAGS:--------------------`)
+    // console.log(tags)
 
     let isfilter = false
     if (title) {
@@ -76,8 +74,8 @@ export async function GET(req: Request) {
          isfilter = true
     }
     
-    console.log(`^^^^^^^^^^^^^^^^^^^^^^^^^^where^^^^^^^^^^^^^^^^^^^6`)
-    console.log(where)
+    // console.log(`^^^^^^^^^^^^^^^^^^^^^^^^^^where^^^^^^^^^^^^^^^^^^^6`)
+    // console.log(where)
 
     const notes = await db.note.findMany({
         where,

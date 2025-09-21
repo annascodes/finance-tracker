@@ -32,7 +32,7 @@ type Record = {
 };
 
 
-const page = () => {
+const Page = () => {
     // const [data, setData] = useState<Record[] | null>(null);
     // const [loading, setLoading] = useState(true)
     // const [err, setErr] = useState(null)
@@ -76,7 +76,7 @@ const page = () => {
     return (
         <div>
             <h1 className="text-2xl text-center justify-center flex flex-row items-center gap-2 font-bold my-1 md:my-5">
-                <span className="text-sm tracking-wider mx-1">your's</span>
+                <span className="text-sm tracking-wider mx-1">yours</span>
                 Records
                 <button
                     onClick={handleRefresh}
@@ -309,4 +309,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
