@@ -8,8 +8,9 @@ interface RouteParams {
     }
 }
  
-export async function PUT(req: Request, { params }: RouteParams) {
+export async function PUT(req: Request, context: { params: { noteId: string } }) {
     const body = await req.json()
+    const{params} = context
     const { userId } = await auth()
 
     if (!userId) {
@@ -37,8 +38,9 @@ export async function PUT(req: Request, { params }: RouteParams) {
 
 }
 
-export async function DELETE(req: Request, { params }: RouteParams) {
+export async function DELETE(req: Request, context: { params: { noteId: string } }) {
     const { userId } = await auth()
+    const{params} = context;
     if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     try {
